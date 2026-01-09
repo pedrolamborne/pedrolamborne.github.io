@@ -1,0 +1,15 @@
+import OpenAI from "openai";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+export async function lamboGPT(message, memory){
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role:"system", content:"Você é LamboGPT, especialista em programação, estudos e ideias criativas." },
+      ...memory,
+      { role:"user", content: message }
+    ]
+  });
+  return response.choices[0].message.content;
+}
